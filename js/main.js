@@ -1,4 +1,4 @@
-const container = document.querySelector('.container');
+const container = document.querySelector('.grid');
 
 // build x amt of squares, attach mouseover listeners and append to grid container
 for(let i = 0 ; i < 256 ; i++){
@@ -14,3 +14,13 @@ for(let i = 0 ; i < 256 ; i++){
     // add to container
     container.appendChild(newDiv);
 }
+
+// add event listener to button
+// when clicked all elements with class 'box' set to gray
+const resetBtn = document.querySelector("#reset");
+resetBtn.addEventListener("click", ()=> {
+    const boxes = document.querySelectorAll(".box");
+    boxes.forEach( (button) => {
+        button.style.backgroundColor = "lightslategray";
+    });
+});
