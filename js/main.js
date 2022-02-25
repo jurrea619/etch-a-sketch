@@ -30,7 +30,7 @@ function clearScreen(){
 const sizeBtn = document.querySelector("#sizeBtn");
 const grid = 
 sizeBtn.addEventListener("click", ()=> {
-    let newSize = prompt("Enter new grid size (up to 35)");    
+    let newSize = prompt("Enter new grid size (up to 50)");    
     //edit grid-template-columns & grid-template rows
     container.style['grid-template-columns'] = `repeat(${newSize}, 1fr`;
     // container.style['grid-template-rows'] = `repeat(${newSize}), 1fr`;
