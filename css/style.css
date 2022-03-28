@@ -24,6 +24,10 @@ body {
     font-size: 2em;
 }
 
+h1 {
+
+}
+
 .grid-container {
     flex: 1 0 0;
     display: flex;
@@ -80,6 +84,7 @@ body {
 button {
     padding: 5px 24px;
     background-color: white;
+    border: 3px solid red;
     color: red;
     font-weight: bold;
 }
