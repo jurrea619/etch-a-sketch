@@ -3,12 +3,16 @@ const container = document.querySelector('.grid');
 const instructions = document.querySelector('#instructions');
 const resetBtn = document.querySelector("#resetBtn");
 const sizeBtn = document.querySelector("#sizeBtn");
+const colorBtn = document.querySelector("#colorBtn");
 let drawingPaused = false;
+let currentColor = "black";
+const colors = ["black","white","red","blue","green","pink"];
 
 // attach click event handler functions
 document.addEventListener('click', pauseGame);
 resetBtn.addEventListener("click", clearScreen);
 sizeBtn.addEventListener("click", resizeGrid);
+colorBtn.addEventListener("click", changeColor);
 
 // build initial 16x16 grid
 buildGrid(16);
@@ -29,16 +33,29 @@ function pauseGame(){
  */
 function buildGrid(size){
     for (let i = 0; i < size**2; i++) {
-        let newDiv = document.createElement('div');
-        newDiv.classList.add('box');
+        let box = document.createElement('div');
+        box.classList.add('box');
         //attach mouseover listener event to turn background color black
-        newDiv.addEventListener('mouseenter', () => {
-            if (!drawingPaused) {
-                newDiv.style.backgroundColor = 'black';
-            }
+        box.addEventListener('mouseenter', () => {
+            applyColor(box, true);
+        });
+        box.addEventListener('click', () => {
+            applyColor(box, false);
         });
         // add div to container
-        container.appendChild(newDiv);
+        container.appendChild(box);
+    }
+}
+
+/**
+ * Apply current chosen color to given box
+ * 
+ * @param {element} box box in which color is applied 
+ * @param {boolean} checkPause will check pause boolean if true, ignore otherwise
+ */
+function applyColor(box, checkPause){
+    if (!drawingPaused || !checkPause) {
+        box.style.backgroundColor = currentColor;
     }
 }
 
@@ -64,6 +81,13 @@ function resizeGrid(){
     removeGridNodes();
     // build new grid
     buildGrid(newSize);
+}
+
+function changeColor(){
+    currentColorIndex = colors.indexOf(currentColor);
+    currentColor = currentColorIndex === colors.length-1 ? colors[0] 
+                                                         : colors[currentColorIndex+1];
+    colorBtn.textContent = `Color: ${currentColor.toUpperCase()}`;
 }
 
 /**
