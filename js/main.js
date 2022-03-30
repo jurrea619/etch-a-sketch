@@ -6,13 +6,22 @@ const sizeBtn = document.querySelector("#sizeBtn");
 const colorBtn = document.querySelector("#colorBtn");
 let drawingPaused = false;
 let currentColor = "black";
-const colors = ["black","white","red","blue","green","pink"];
+const colors = ["black","white","red","orange","yellow","green","blue","purple"];
 
-// attach click event handler functions
+// attach click event functions and handle bubbling
 document.addEventListener('click', pauseGame);
-resetBtn.addEventListener("click", clearScreen);
-sizeBtn.addEventListener("click", resizeGrid);
-colorBtn.addEventListener("click", changeColor);
+resetBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    clearScreen()
+});
+sizeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    resizeGrid();
+});
+colorBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    changeColor();
+});
 
 // build initial 16x16 grid
 buildGrid(16);
