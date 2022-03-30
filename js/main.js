@@ -1,5 +1,10 @@
-// declare var and attach grid container
+// declare vars for grid container and mouseClicked on/off feature
 const container = document.querySelector('.grid');
+let drawingPaused = false;
+
+document.addEventListener('click', () => {
+    drawingPaused = drawingPaused? false : true;
+});
 
 // build initial 16*16 grid on page load
 for(let i = 0 ; i < 256 ; i++){
@@ -8,7 +13,9 @@ for(let i = 0 ; i < 256 ; i++){
 
     //attach mouseover listener event to turn background color black
     newDiv.addEventListener('mouseenter', () =>{
-        newDiv.style.backgroundColor = 'black';
+        if(!drawingPaused){
+            newDiv.style.backgroundColor = 'black';
+        }
     });
 
     // add div to container

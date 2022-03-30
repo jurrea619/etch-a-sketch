@@ -35,6 +35,10 @@ body {
     background-color: red;
 }
 
+#instructions {
+    color: white;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
@@ -46,7 +50,7 @@ body {
     max-height: 80%;
     width: 90%;
     max-width: 90%;
-    margin-bottom: 20px;
+    margin: 3px 0 20px;
 }
 
 .box {
