@@ -1,73 +1,69 @@
-// declare vars for grid container and mouseClicked on/off feature
+// vars for grid container, buttons and pause boolean
 const container = document.querySelector('.grid');
+const instructions = document.querySelector('#instructions');
+const resetBtn = document.querySelector("#resetBtn");
+const sizeBtn = document.querySelector("#sizeBtn");
 let drawingPaused = false;
 
-document.addEventListener('click', () => {
-    drawingPaused = drawingPaused? false : true;
-});
-
-// build initial 16*16 grid on page load
-for(let i = 0 ; i < 256 ; i++){
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('box');
-
-    //attach mouseover listener event to turn background color black
-    newDiv.addEventListener('mouseenter', () =>{
-        if(!drawingPaused){
-            newDiv.style.backgroundColor = 'black';
-        }
-    });
-
-    // add div to container
-    container.appendChild(newDiv);
-}
-
-// declare var for reset button, attach click event handler function
-const resetBtn = document.querySelector("#resetBtn");
+// attach click event handler functions
+document.addEventListener('click', pauseGame);
 resetBtn.addEventListener("click", clearScreen);
+sizeBtn.addEventListener("click", resizeGrid);
+
+// build initial 16x16 grid
+buildGrid(16);
 
 /**
- * Resets current grid back to original grey color
+ * Pauses and unpauses drawing state of game
+ */
+function pauseGame(){
+    drawingPaused = drawingPaused ? false : true;
+    instructions.textContent = drawingPaused ? "Paused. Click mouse to resume"
+        : "Click mouse to pause";
+}
+
+/**
+ * Build size*size grid with given size for rows and columns
+ * 
+ * @param {number} size size of new grid rows/columns
+ */
+function buildGrid(size){
+    for (let i = 0; i < size**2; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.classList.add('box');
+        //attach mouseover listener event to turn background color black
+        newDiv.addEventListener('mouseenter', () => {
+            if (!drawingPaused) {
+                newDiv.style.backgroundColor = 'black';
+            }
+        });
+        // add div to container
+        container.appendChild(newDiv);
+    }
+}
+
+/**
+ * Resets current grid back to original starting state
  */
 function clearScreen(){
     const boxes = document.querySelectorAll(".box");
     boxes.forEach((button) => {
         button.style.backgroundColor = "lightslategray";
     });
+    drawingPaused = false;
 }
 
-// grab size button and grid element to be adjusted
-const sizeBtn = document.querySelector("#sizeBtn");
-sizeBtn.addEventListener("click", ()=> {
-    let newSize = prompt("Enter new grid size (up to 100)");    
-    resizeGrid(newSize);
-});
-
 /**
- * Create new grid with size*size
- * 
- * @param {number} size size of new grid rows/columns
+ * Build new grid after prompting user for size
  */
-function resizeGrid(size){
-    //edit grid-template-columns & grid-template rows
-    container.style['grid-template-columns'] = `repeat(${size}, 1fr`;
-
-    //remove all existing boxes from grid
+function resizeGrid(){
+    let newSize = prompt("Enter new grid size (up to 100)");
+    //edit grid-template-columns
+    container.style['grid-template-columns'] = `repeat(${newSize}, 1fr`;
+    // remove all existing boxes from grid
     removeGridNodes();
-
-    for (let i = 0; i < size ** 2; i++) {
-        //create div with 'box' class
-        let newDiv = document.createElement('div');
-        newDiv.classList.add('box');
-
-        //attach mouseover listener event to turn background color black
-        newDiv.addEventListener('mouseenter', () => {
-            newDiv.style.backgroundColor = 'black';
-        });
-
-        // add to container
-        container.appendChild(newDiv);
-    }
+    // build new grid
+    buildGrid(newSize);
 }
 
 /**
