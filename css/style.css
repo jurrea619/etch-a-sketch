@@ -87,4 +87,15 @@ button {
     border: 3px solid red;
     color: red;
     font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    color: white;
+    background-color: red;
+}
+
+input,
+label {
+    cursor: pointer;
 }

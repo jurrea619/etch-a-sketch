@@ -4,6 +4,7 @@ const instructions = document.querySelector('#instructions');
 const resetBtn = document.querySelector("#resetBtn");
 const sizeBtn = document.querySelector("#sizeBtn");
 const colorBtn = document.querySelector("#colorBtn");
+const buttons = [resetBtn, sizeBtn, colorBtn];
 const colorPicker = document.getElementById("colorPicker");
 let drawingPaused = false;
 let currentColor = '#000000';
@@ -86,11 +87,13 @@ function clearScreen(){
 function resizeGrid(){
     let newSize = prompt("Enter new grid size (2 to 100)");
     try{
-        if(newSize < 2 || newSize > 100) throw "Invalid";
+        if(newSize < 2 || newSize > 100 || newSize === 'undefined' ) throw "Invalid";
     }
     catch{
         alert("Size must be between 2-100");
-        newSize = prompt("Enter new grid size (2 to 100)");
+        while(newSize < 2 || newSize > 100) { 
+            newSize =prompt("Enter new grid size (2 to 100)")
+        };
     }
     //edit grid-template-columns
     container.style['grid-template-columns'] = `repeat(${newSize}, 1fr`;
