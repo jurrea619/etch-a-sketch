@@ -12,7 +12,7 @@
         <h1>Etch-A-Sketch</h1>
     </div>
     <div class="grid-container">
-        <p id="instructions">Click mouse to start/stop painting</p>
+        <p id="instructions">Click mouse to pause painting</p>
         <div class="grid"></div>
         <div class="knobs-container">
             <button class="knob"></button>
@@ -21,7 +21,11 @@
     </div>
     <div class="controls">
         <button id="sizeBtn">Change Size</button>
-        <button id="colorBtn">Color: BLACK</button>
+        <!-- <button id="colorBtn">Color: BLACK</button> -->
+        <button id="colorBtn">
+            <label for="colorPicker">Color:</label>
+            <input type="color" id="colorPicker" value="#000000">
+        </button>
         <button id="resetBtn">Reset</button>
     </div>
 

@@ -1,12 +1,12 @@
-// vars for grid container, buttons and pause boolean
+// declare vars for elements, colors, and booleans needed
 const container = document.querySelector('.grid');
 const instructions = document.querySelector('#instructions');
 const resetBtn = document.querySelector("#resetBtn");
 const sizeBtn = document.querySelector("#sizeBtn");
 const colorBtn = document.querySelector("#colorBtn");
+const colorPicker = document.getElementById("colorPicker");
 let drawingPaused = false;
-let currentColor = "black";
-const colors = ["black","white","red","orange","yellow","green","blue","purple"];
+let currentColor = '#000000';
 
 // attach click event functions and handle bubbling
 document.addEventListener('click', pauseGame);
@@ -20,18 +20,19 @@ sizeBtn.addEventListener("click", (e) => {
 });
 colorBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    changeColor();
 });
+colorPicker.addEventListener("input", changeColor);
+
 
 // build initial 16x16 grid
 buildGrid(16);
 
 /**
- * Pauses and unpauses drawing state of game
+ * Pauses and resumes drawing state of game
  */
 function pauseGame(){
     drawingPaused = drawingPaused ? false : true;
-    instructions.textContent = drawingPaused ? "Paused. Click mouse to resume"
+    instructions.textContent = drawingPaused ? "PAUSED. Click mouse to resume coloring"
         : "Click mouse to pause";
 }
 
@@ -44,12 +45,13 @@ function buildGrid(size){
     for (let i = 0; i < size**2; i++) {
         let box = document.createElement('div');
         box.classList.add('box');
-        //attach mouseover listener event to turn background color black
-        box.addEventListener('mouseenter', () => {
-            applyColor(box, true);
-        });
-        box.addEventListener('click', () => {
-            applyColor(box, false);
+        //attach listeners for events to turn color box
+        ['click','mouseenter'].forEach((evt) => {
+            box.addEventListener(evt, () => {
+                // if box clicked, don't check pause boolean
+                evt === 'click' ? applyColor(box,false) 
+                                : applyColor(box,true);
+            })
         });
         // add div to container
         container.appendChild(box);
@@ -59,7 +61,7 @@ function buildGrid(size){
 /**
  * Apply current chosen color to given box
  * 
- * @param {element} box box in which color is applied 
+ * @param {element} box box element on which color is applied 
  * @param {boolean} checkPause will check pause boolean if true, ignore otherwise
  */
 function applyColor(box, checkPause){
@@ -76,7 +78,6 @@ function clearScreen(){
     boxes.forEach((button) => {
         button.style.backgroundColor = "lightslategray";
     });
-    drawingPaused = false;
 }
 
 /**
@@ -92,11 +93,11 @@ function resizeGrid(){
     buildGrid(newSize);
 }
 
+/**
+ * Change to next drawing color in colors array
+ */
 function changeColor(){
-    currentColorIndex = colors.indexOf(currentColor);
-    currentColor = currentColorIndex === colors.length-1 ? colors[0] 
-                                                         : colors[currentColorIndex+1];
-    colorBtn.textContent = `Color: ${currentColor.toUpperCase()}`;
+    currentColor = colorPicker.value;
 }
 
 /**
