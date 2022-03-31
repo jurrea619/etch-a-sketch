@@ -84,7 +84,14 @@ function clearScreen(){
  * Build new grid after prompting user for size
  */
 function resizeGrid(){
-    let newSize = prompt("Enter new grid size (up to 100)");
+    let newSize = prompt("Enter new grid size (2 to 100)");
+    try{
+        if(newSize < 2 || newSize > 100) throw "Invalid";
+    }
+    catch{
+        alert("Size must be between 2-100");
+        newSize = prompt("Enter new grid size (2 to 100)");
+    }
     //edit grid-template-columns
     container.style['grid-template-columns'] = `repeat(${newSize}, 1fr`;
     // remove all existing boxes from grid
